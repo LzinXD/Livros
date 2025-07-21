@@ -12,6 +12,7 @@ class Livros {
         $this->pdo = $pdo;
     }
 
+    // Setters
     public function setId($id) {
         $this->id = $id;
     }
@@ -24,8 +25,8 @@ class Livros {
         $this->autor = $autor;
     }
 
-    public function setgenero($genero) {
-        $this->$genero = $genero;
+    public function setGenero($genero) {
+        $this->genero = $genero;
     }
 
     public function setEditora($editora) {
@@ -36,8 +37,10 @@ class Livros {
         $this->ano_lancamento = $ano_lancamento;
     }
 
+    // Salvar
     public function salvar() {
-        $sql = "INSERT INTO livros (nome, autor, genero, editora, ano_lancamento) VALUES (:nome, :autor, :editora, :ano_lancamento)";
+        $sql = "INSERT INTO livros (nome, autor, genero, editora, ano_lancamento)
+                VALUES (:nome, :autor, :genero, :editora, :ano_lancamento)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':nome', $this->nome);
         $stmt->bindParam(':autor', $this->autor);
@@ -47,13 +50,22 @@ class Livros {
         return $stmt->execute();
     }
 
+    // Atualizar
     public function atualizar() {
-        $sql = "UPDATE livros SET nome = :nome, autor = :autor, genero$genero$genero = :genero$genero$genero WHERE id = :id";
+        $sql = "UPDATE livros 
+                SET nome = :nome, 
+                    autor = :autor, 
+                    genero = :genero, 
+                    editora = :editora, 
+                    ano_lancamento = :ano_lancamento 
+                WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':nome', $this->nome);
         $stmt->bindParam(':autor', $this->autor);
-        $stmt->bindParam(':genero$genero$genero', $this->genero$genero$genero);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':genero', $this->genero);
+        $stmt->bindParam(':editora', $this->editora);
+        $stmt->bindParam(':ano_lancamento', $this->ano_lancamento);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }
