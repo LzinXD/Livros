@@ -1,7 +1,7 @@
 <?php
 require 'conexao.php';
 
-$id = $_GET['id'] ?? null;
+$id = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 if (!$id) {
     die("ID não informado.");
@@ -9,11 +9,11 @@ if (!$id) {
 
 $sql = "DELETE FROM livros WHERE id = :id";
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(':id', $id);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
 if ($stmt->execute()) {
-    echo "livro excluído com sucesso! <a href='listar_livros.php'>Voltar para a lista</a>";
+    echo "Livro excluído com sucesso! <a href='listar_livro.php'>Voltar para a lista</a>";
 } else {
-    echo "Erro ao excluir livro.";
+    echo "Erro ao excluir o livro.";
 }
 ?>
